@@ -1,0 +1,64 @@
+# GitHub Pages deployment workflow for the Astro site.
+#
+# This builds the site on every push to main and publishes the static
+# output to GitHub Pages. No extra configuration needed beyond setting
+# Pages to "GitHub Actions" in your repo settings.
+#
+# Before this works:
+#   1. Set `base` in astro.config.mjs to "/your-repo-name"
+#   2. Set `site` to your GitHub Pages URL (e.g. https://gwynfox.github.io)
+#   3. In your repo: Settings → Pages → Source → "GitHub Actions"
+#
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Allow manual trigger
+  workflow_dispatch:
+
+# Allow GITHUB_TOKEN to deploy to Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deployment at a time
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with Astro
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

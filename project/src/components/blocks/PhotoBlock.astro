@@ -13,7 +13,7 @@ interface Props {
 const { image, alt, caption, width = 'normal' } = Astro.props;
 const base = import.meta.env.BASE_URL;
 // Normalize image path with base prefix
-const src = image.startsWith('http') ? image : `${base}${image.replace(/^\//, '')}`;
+const src = image.startsWith('http') ? image : `${base}/${image.replace(/^\//, '')}`;
 ---
 
 <div class:list={["block-photo", `width-${width}`]} data-block="photo" data-fade-in>

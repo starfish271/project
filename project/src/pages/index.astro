@@ -31,7 +31,7 @@ const MIN_CARDS = 4;
 const placeholderCount = Math.max(0, MIN_CARDS - allPosts.length);
 const totalCards = allPosts.length + placeholderCount;
 
-const normSrc = (img: string) => img.startsWith('http') ? img : `${base}${img.replace(/^\//, '')}`;
+const normSrc = (img: string) => img.startsWith('http') ? img : `${base}/${img.replace(/^\//, '')}`;
 ---
 
 <BaseLayout title="Gwyn Fox — Creative Technology & Design">
@@ -64,7 +64,7 @@ const normSrc = (img: string) => img.startsWith('http') ? img : `${base}${img.re
       {allPosts.map((post, i) => (
         <a
           class="work-card"
-          href={`${base}posts/${post.slug}`}
+          href={`${base}/posts/${post.slug}`}
           data-card-index={i}
           data-card-slug={post.slug}
         >

@@ -41,7 +41,7 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
 
 const coverSrc = post.data.cover.startsWith('http')
   ? post.data.cover
-  : `${base}${post.data.cover.replace(/^\//, '')}`;
+  : `${base}/${post.data.cover.replace(/^\//, '')}`;
 ---
 
 <BaseLayout title={`${post.data.title} — Gwyn Fox`} description={post.data.summary}>
@@ -77,7 +77,7 @@ const coverSrc = post.data.cover.startsWith('http')
     <nav class="post-nav container" aria-label="More posts">
       <div class="nav-half nav-prev">
         {olderPost && (
-          <a href={`${base}posts/${olderPost.slug}`}>
+          <a href={`${base}/posts/${olderPost.slug}`}>
             <span class="nav-label mono">← Previous</span>
             <span class="nav-title">{olderPost.data.title}</span>
           </a>
@@ -85,7 +85,7 @@ const coverSrc = post.data.cover.startsWith('http')
       </div>
       <div class="nav-half nav-next">
         {newerPost && (
-          <a href={`${base}posts/${newerPost.slug}`}>
+          <a href={`${base}/posts/${newerPost.slug}`}>
             <span class="nav-label mono">Next →</span>
             <span class="nav-title">{newerPost.data.title}</span>
           </a>
