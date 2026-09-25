@@ -16,6 +16,19 @@ import NavBar from '../components/NavBar.astro';
 
 const base = import.meta.env.BASE_URL;
 
+// Site settings (editable through the admin portal)
+const settingsEntry = await getCollection('settings');
+const settings = settingsEntry[0]?.data ?? {
+  name: 'Gwyn Fox',
+  tagline: '',
+  about_title: 'About',
+  about_bio: [],
+  skills: [],
+  contact_links: [],
+  nav_initials: 'GF',
+  footer_left: 'ATLAS · CU Boulder',
+};
+
 // All published posts, newest first
 const allPosts = (await getCollection('posts', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
@@ -41,9 +54,9 @@ const normSrc = (img: string) => img.startsWith('http') ? img : `${base}/${img.r
   <!-- ══ 1. INTRO ═══════════════════════════════════════════════ -->
   <section class="intro" id="intro">
     <div class="intro-content">
-      <h1 class="intro-name" data-scramble>Gwyn Fox</h1>
+      <h1 class="intro-name" data-scramble>{settings.name}</h1>
       <p class="intro-line" data-split-reveal>
-        Creative technologist building tactile, expressive systems at the intersection of electronics, code, and craft.
+        {settings.tagline}
       </p>
     </div>
     <div class="intro-scroll-hint mono">scroll ↓</div>
@@ -97,39 +110,26 @@ const normSrc = (img: string) => img.startsWith('http') ? img : `${base}/${img.r
   <!-- ══ 3. ABOUT ═══════════════════════════════════════════════ -->
   <section class="about-section section" id="about">
     <div class="container container--narrow">
-      <h2 data-split-reveal>About</h2>
+      <h2 data-split-reveal>{settings.about_title}</h2>
       <div class="bio">
-        <p>
-          I'm <strong>Gwyn Fox</strong>, a senior studying <strong>Creative Technology and Design</strong>
-          at the <strong>ATLAS Institute</strong>, University of Colorado Boulder. My work lives at the
-          intersection of physical computing, fabrication, and creative coding — I build things you can
-          touch, wear, and play with.
-        </p>
-        <p>
-          This portfolio documents my process across coursework and personal projects, from breadboard
-          prototypes to finished builds.
-        </p>
+        {settings.about_bio.map((paragraph) => (
+          <p set:html={paragraph} />
+        ))}
       </div>
 
       <h3 class="skills-heading mono">Skills</h3>
       <p class="skills-line">
-        electronics · Arduino · fabrication · wearables · creative coding · video production
+        {settings.skills.join(' · ')}
       </p>
 
       <h3 class="contact-heading mono">Contact</h3>
       <div class="contact-links">
-        <a href="mailto:gwyn.fox@colorado.edu" data-magnetic>
-          <span class="mono">email</span>
-          <span>gwyn.fox@colorado.edu</span>
-        </a>
-        <a href="https://github.com/gwynfox" target="_blank" rel="noopener noreferrer" data-magnetic>
-          <span class="mono">github</span>
-          <span>github.com/gwynfox</span>
-        </a>
-        <a href="https://instagram.com/gwynfox" target="_blank" rel="noopener noreferrer" data-magnetic>
-          <span class="mono">instagram</span>
-          <span>@gwynfox</span>
-        </a>
+        {settings.contact_links.map((link) => (
+          <a href={link.url} data-magnetic>
+            <span class="mono">{link.label}</span>
+            <span>{link.value}</span>
+          </a>
+        ))}
       </div>
     </div>
   </section>

@@ -20,6 +20,10 @@ interface Props {
 const { fixed = false } = Astro.props;
 const base = import.meta.env.BASE_URL;
 
+// Site settings for nav initials
+const settingsEntry = await getCollection('settings');
+const settings = settingsEntry[0]?.data;
+
 // Get all published posts for the chip row
 const posts = (await getCollection('posts', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
@@ -34,7 +38,7 @@ const normSrc = (img: string) => img.startsWith('http') ? img : `${base}/${img.r
 >
   <div class="nav-bar-inner">
     <a href={`${base}/`} class="nav-name mono" data-magnetic>
-      GF
+      {settings?.nav_initials ?? 'GF'}
     </a>
     <div class="nav-chips" id="nav-chips">
       {posts.map((post) => (

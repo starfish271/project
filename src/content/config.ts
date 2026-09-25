@@ -63,4 +63,23 @@ const posts = defineCollection({
   }),
 });
 
-export const collections = { posts };
+// ── Site settings collection ──────────────────────────────────
+const siteSettings = defineCollection({
+  type: 'content',
+  schema: z.object({
+    name: z.string(),
+    tagline: z.string(),
+    about_title: z.string().default('About'),
+    about_bio: z.array(z.string()).default([]),
+    skills: z.array(z.string()).default([]),
+    contact_links: z.array(z.object({
+      label: z.string(),
+      value: z.string(),
+      url: z.string(),
+    })).default([]),
+    nav_initials: z.string().default('GF'),
+    footer_left: z.string().default('ATLAS · CU Boulder'),
+  }),
+});
+
+export const collections = { posts, settings: siteSettings };

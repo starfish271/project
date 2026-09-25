@@ -16,16 +16,98 @@ backend:
   branch: main
   # base_url is not needed for raw GitHub API auth; Sveltia handles it
 
+site_url: https://starfish271.github.io/project/
+
 # Media uploads go to this folder in the repo
 media_folder: "public/uploads"
-# In the final URL, /uploads/ maps to public/uploads/
-public_folder: "/uploads"
+# In the final URL, uploaded files appear under /project/uploads/
+public_folder: "/project/uploads"
 
 # Show drafts separately
 publish_mode: editorial_workflow
 
 # Collections ────────────────────────────────────────────────────
 collections:
+  # ── Site Settings (home page content) ─────────────────────────
+  - name: "settings"
+    label: "Site Settings"
+    label_singular: "Site Settings"
+    folder: "src/content/settings"
+    create: false
+    delete: false
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+
+    fields:
+      - name: "name"
+        label: "Your name"
+        widget: "string"
+        hint: "Shown large at the top of the home page and in the nav bar."
+
+      - name: "nav_initials"
+        label: "Nav initials"
+        widget: "string"
+        hint: "Short initials shown in the sticky nav bar (e.g. GF)."
+
+      - name: "tagline"
+        label: "Tagline"
+        widget: "text"
+        hint: "One line under your name on the home page."
+
+      - name: "about_title"
+        label: "About section title"
+        widget: "string"
+        default: "About"
+        hint: "The heading for the about section."
+
+      - name: "about_bio"
+        label: "About paragraphs"
+        widget: "list"
+        required: false
+        hint: "Each item is a paragraph. Use **bold** for emphasis."
+        field:
+          name: "paragraph"
+          label: "Paragraph"
+          widget: "markdown"
+          hint: "Write one paragraph. Supports bold, links, and lists."
+
+      - name: "skills"
+        label: "Skills"
+        widget: "list"
+        required: false
+        hint: "Each item is a skill (e.g. Arduino, fabrication)."
+        field:
+          name: "skill"
+          label: "Skill"
+          widget: "string"
+
+      - name: "contact_links"
+        label: "Contact links"
+        widget: "list"
+        required: false
+        hint: "Links shown in the contact section. Each has a label, display text, and URL."
+        fields:
+          - name: "label"
+            label: "Label"
+            widget: "string"
+            hint: "Small label (e.g. email, github, instagram)."
+          - name: "value"
+            label: "Display text"
+            widget: "string"
+            hint: "What's shown to the visitor (e.g. gwyn.fox@colorado.edu)."
+          - name: "url"
+            label: "URL"
+            widget: "string"
+            hint: "Where the link goes (e.g. mailto:gwyn.fox@colorado.edu)."
+
+      - name: "footer_left"
+        label: "Footer text (left side)"
+        widget: "string"
+        default: "ATLAS · CU Boulder"
+        hint: "Shown on the left side of the footer."
+
+  # ── Posts ─────────────────────────────────────────────────────
   - name: "posts"
     label: "Posts"
     label_singular: "Post"

@@ -7,6 +7,7 @@
  */
 import '../styles/global.css';
 import { ViewTransitions } from 'astro:transitions';
+import { getCollection } from 'astro:content';
 // Main animation controller — loads GSAP, matchMedia, and all effects
 import '../scripts/main.ts';
 
@@ -15,7 +16,12 @@ interface Props {
   description?: string;
 }
 
-const { title = 'Gwyn Fox — Creative Technology', description = 'Portfolio and project documentation by Gwyn Fox, Creative Technology & Design, ATLAS, CU Boulder.' } = Astro.props;
+const settingsEntry = await getCollection('settings');
+const settings = settingsEntry[0]?.data;
+const name = settings?.name ?? 'Gwyn Fox';
+const footerLeft = settings?.footer_left ?? 'ATLAS · CU Boulder';
+
+const { title = `${name} — Creative Technology`, description = `Portfolio and project documentation by ${name}.` } = Astro.props;
 const base = import.meta.env.BASE_URL;
 ---
 
@@ -43,8 +49,8 @@ const base = import.meta.env.BASE_URL;
   <!-- ── Footer ──────────────────────────────────────────────── -->
   <footer class="site-footer">
     <div class="container footer-inner">
-      <span class="mono">© {new Date().getFullYear()} Gwyn Fox</span>
-      <span class="mono">ATLAS · CU Boulder</span>
+      <span class="mono">© {new Date().getFullYear()} {name}</span>
+      <span class="mono">{footerLeft}</span>
     </div>
   </footer>
 </body>
