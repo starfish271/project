@@ -1,0 +1,164 @@
+---
+/**
+ * NavBar.astro — the slim sticky navigation bar.
+ *
+ * On the home page this starts as large project cards and morphs into
+ * this bar via GSAP (Stage 4). On post pages it's rendered already in
+ * its docked state — no morph, just a normal sticky bar.
+ *
+ * Contents: name (links to top), project chips (each links to its post),
+ * and an "About" link. If there are more chips than fit, the row scrolls
+ * horizontally inside the bar.
+ */
+import { getCollection } from 'astro:content';
+
+interface Props {
+  /** If true, render as a fixed/sticky bar from the start (post pages) */
+  fixed?: boolean;
+}
+
+const { fixed = false } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+// Get all published posts for the chip row
+const posts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const normSrc = (img: string) => img.startsWith('http') ? img : `${base}${img.replace(/^\//, '')}`;
+---
+
+<nav
+  class:list={["site-nav-bar", { "is-fixed": fixed }]}
+  id="site-nav-bar"
+  aria-label="Site navigation"
+>
+  <div class="nav-bar-inner">
+    <a href={`${base}`} class="nav-name mono" data-magnetic>
+      GF
+    </a>
+    <div class="nav-chips" id="nav-chips">
+      {posts.map((post) => (
+        <a
+          class="nav-chip"
+          href={`${base}posts/${post.slug}`}
+          data-magnetic
+          data-post-slug={post.slug}
+        >
+          <img src={normSrc(post.data.cover)} alt="" class="chip-thumb" />
+          <span class="chip-title">{post.data.title}</span>
+        </a>
+      ))}
+    </div>
+    <a href="#about" class="nav-about mono" data-magnetic>About</a>
+  </div>
+</nav>
+
+<style>
+  .site-nav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    opacity: 0; /* hidden until morph completes (home) or always shown (post pages) */
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* On post pages, show immediately */
+  .site-nav-bar.is-fixed {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* When the morph animation reveals it (home page) */
+  .site-nav-bar.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-bar-inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-2);
+    height: 100%;
+  }
+
+  .nav-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+    color: var(--fg);
+  }
+
+  .nav-chips {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex: 1;
+    min-width: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-chips::-webkit-scrollbar { display: none; }
+
+  .nav-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.2rem 0.5rem 0.2rem 0.2rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+    transition: border-color var(--transition), background var(--transition);
+  }
+
+  .nav-chip:hover {
+    border-color: var(--accent);
+    color: var(--fg);
+  }
+
+  .chip-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .chip-title {
+    font-size: 0.72rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .nav-about {
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    color: var(--fg);
+  }
+
+  @media (max-width: 640px) {
+    .nav-bar-inner {
+      gap: var(--space-1);
+      padding: 0 var(--space-1);
+    }
+    .chip-title {
+      max-width: 80px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+</style>

@@ -1,0 +1,136 @@
+---
+/**
+ * CodeBlock — syntax-highlighted code with filename label and copy button.
+ * Uses Astro's built-in Shiki via the <Code /> component from astro:components.
+ *
+ * Languages supported: Arduino/C++, JavaScript, Python, HTML, CSS.
+ */
+import { Code } from 'astro:components';
+
+interface Props {
+  code: string;
+  language: 'cpp' | 'javascript' | 'python' | 'html' | 'css';
+  filename?: string;
+}
+
+const { code, language, filename } = Astro.props;
+
+// Map our language names to Shiki language IDs
+const langMap: Record<string, string> = {
+  cpp: 'cpp',
+  javascript: 'javascript',
+  python: 'python',
+  html: 'html',
+  css: 'css',
+};
+
+const shikiLang = langMap[language] || 'text';
+
+// Display labels
+const langLabels: Record<string, string> = {
+  cpp: 'Arduino / C++',
+  javascript: 'JavaScript',
+  python: 'Python',
+  html: 'HTML',
+  css: 'CSS',
+};
+
+const label = langLabels[language] || language;
+---
+
+<div class="block-code" data-block="code" data-fade-in>
+  <div class="code-header">
+    <span class="code-label mono">{filename || label}</span>
+    <button class="copy-btn mono" data-copy-code aria-label="Copy code to clipboard">
+      Copy
+    </button>
+  </div>
+  <div class="code-body">
+    <Code code={code} lang={shikiLang} theme="github-dark" />
+  </div>
+</div>
+
+<style>
+  .block-code {
+    margin: var(--space-3) auto;
+    max-width: var(--max-width);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-1) var(--space-2);
+    background: #16161e;
+    border-bottom: 1px solid #2a2a3a;
+  }
+
+  .code-label {
+    color: #8b8ba7;
+    font-size: 0.75rem;
+  }
+
+  .copy-btn {
+    background: transparent;
+    border: 1px solid #2a2a3a;
+    color: #8b8ba7;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.72rem;
+    transition: all var(--transition);
+  }
+
+  .copy-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .copy-btn.copied {
+    border-color: #4caf50;
+    color: #4caf50;
+  }
+
+  /* Match the Shiki theme background */
+  .code-body :global(pre) {
+    margin: 0 !important;
+    padding: var(--space-3) !important;
+    font-size: 0.85rem;
+    overflow-x: auto;
+    background: #0d1117 !important;
+  }
+
+  .code-body :global(code) {
+    font-family: var(--font-mono) !important;
+  }
+</style>
+
+<script>
+  // Copy button handler — runs on load and after View Transitions
+  function initCopyButtons() {
+    document.querySelectorAll('[data-copy-code]').forEach((btn) => {
+      // Avoid double-binding
+      if (btn.dataset.bound) return;
+      btn.dataset.bound = 'true';
+      btn.addEventListener('click', () => {
+        const body = btn.closest('.block-code')?.querySelector('.code-body');
+        if (!body) return;
+        const text = body.innerText;
+        navigator.clipboard.writeText(text).then(() => {
+          btn.textContent = 'Copied!';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.textContent = 'Copy';
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      });
+    });
+  }
+
+  initCopyButtons();
+  document.addEventListener('astro:after-swap', initCopyButtons);
+</script>

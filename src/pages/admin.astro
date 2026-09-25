@@ -1,0 +1,26 @@
+---
+/**
+ * admin.astro — Sveltia CMS entry point.
+ *
+ * Sveltia CMS is a drop-in replacement for Decap/Netlify CMS that loads
+ * from a CDN. It reads/writes files in the GitHub repo via the GitHub API
+ * using a personal access token.
+ *
+ * The CMS config is at /admin/config.yml (see public/admin/config.yml).
+ */
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Gwyn Fox</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <!-- Sveltia CMS — loaded from CDN -->
+  <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+</head>
+<body>
+  <!-- Sveltia CMS mounts here automatically -->
+</body>
+</html>

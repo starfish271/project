@@ -1,0 +1,184 @@
+---
+/**
+ * [slug].astro — individual post page.
+ *
+ * - Renders the slim NavBar in its fixed/docked state (no morph)
+ * - Title reveals with SplitText (Stage 5)
+ * - Blocks fade and slide up as they enter the viewport (Stage 5)
+ * - Scroll progress bar at top (Stage 5)
+ * - Previous/next post links at the bottom
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+import BlockRenderer from '../../components/BlockRenderer.astro';
+
+// Generate static paths from all non-draft posts
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+// All published posts sorted by date descending for prev/next
+const allPosts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const currentIndex = allPosts.findIndex((p) => p.slug === post.slug);
+const newerPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+const olderPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+
+const formattedDate = post.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const coverSrc = post.data.cover.startsWith('http')
+  ? post.data.cover
+  : `${base}${post.data.cover.replace(/^\//, '')}`;
+---
+
+<BaseLayout title={`${post.data.title} — Gwyn Fox`} description={post.data.summary}>
+  <!-- NavBar in fixed state — no morph animation on post pages -->
+  <NavBar fixed={true} />
+
+  <!-- Scroll progress bar (animated in Stage 5) -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <article class="post">
+    <!-- Post header -->
+    <header class="post-header container container--narrow">
+      <div class="post-meta mono">
+        <time datetime={post.data.date.toISOString()}>{formattedDate}</time>
+      </div>
+      <h1 class="post-title" data-split-reveal>{post.data.title}</h1>
+      <p class="post-summary">{post.data.summary}</p>
+    </header>
+
+    <!-- Cover image -->
+    {post.data.cover && (
+      <div class="post-cover container">
+        <img src={coverSrc} alt={post.data.title} />
+      </div>
+    )}
+
+    <!-- Content blocks -->
+    <div class="post-body">
+      <BlockRenderer blocks={post.data.blocks} />
+    </div>
+
+    <!-- Prev / Next navigation -->
+    <nav class="post-nav container" aria-label="More posts">
+      <div class="nav-half nav-prev">
+        {olderPost && (
+          <a href={`${base}posts/${olderPost.slug}`}>
+            <span class="nav-label mono">← Previous</span>
+            <span class="nav-title">{olderPost.data.title}</span>
+          </a>
+        )}
+      </div>
+      <div class="nav-half nav-next">
+        {newerPost && (
+          <a href={`${base}posts/${newerPost.slug}`}>
+            <span class="nav-label mono">Next →</span>
+            <span class="nav-title">{newerPost.data.title}</span>
+          </a>
+        )}
+      </div>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .scroll-progress {
+    position: fixed;
+    top: 56px; /* below nav bar */
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: var(--accent);
+    z-index: 199;
+    transition: width 0.1s linear;
+  }
+
+  .post-header {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-3);
+  }
+
+  .post-meta {
+    margin-bottom: var(--space-2);
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+  }
+
+  .post-title {
+    margin-bottom: var(--space-2);
+  }
+
+  .post-summary {
+    font-size: 1.1rem;
+    color: var(--fg-muted);
+    max-width: 90%;
+  }
+
+  .post-cover {
+    margin: var(--space-3) auto var(--space-4);
+  }
+
+  .post-cover img {
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .post-body {
+    padding: var(--space-3) 0 var(--space-6);
+  }
+
+  .post-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-5) 0;
+    border-top: 1px solid var(--border);
+    margin-bottom: var(--space-5);
+  }
+
+  .nav-half { flex: 1; }
+  .nav-next { text-align: right; }
+
+  .nav-half a {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .nav-label {
+    font-size: 0.75rem;
+    color: var(--fg-muted);
+  }
+
+  .nav-title {
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+
+  .nav-title:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .post-nav {
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .nav-next { text-align: left; }
+  }
+</style>

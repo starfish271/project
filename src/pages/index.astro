@@ -1,0 +1,344 @@
+---
+/**
+ * index.astro — Home page (one continuous scroll).
+ *
+ * Section order:
+ *   1. Intro — full screen, name + one-line bio (ScrambleText + SplitText in Stage 3)
+ *   2. Project cards — horizontal scroll that pins, then morphs into sticky nav (Stage 3 + 4)
+ *   3. About — bio, skills, contact links (SplitText headings in Stage 3)
+ *
+ * The NavBar starts hidden and is revealed by the morph animation (Stage 4).
+ * On mobile / reduced-motion, cards are a native swipe row and the NavBar shows immediately.
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.astro';
+
+const base = import.meta.env.BASE_URL;
+
+// All published posts, newest first
+const allPosts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// ── Settings ──────────────────────────────────────────────────
+// Minimum number of cards in the horizontal scroll row.
+// If there are fewer posts than this, "Coming soon" placeholder cards
+// fill the row. Placeholders are not links and don't appear in the nav.
+// Set to 0 to disable padding.
+const MIN_CARDS = 4;
+// ──────────────────────────────────────────────────────────────
+
+const placeholderCount = Math.max(0, MIN_CARDS - allPosts.length);
+const totalCards = allPosts.length + placeholderCount;
+
+const normSrc = (img: string) => img.startsWith('http') ? img : `${base}${img.replace(/^\//, '')}`;
+---
+
+<BaseLayout title="Gwyn Fox — Creative Technology & Design">
+  <!-- The slim nav bar — hidden by default, revealed by morph animation -->
+  <NavBar fixed={false} />
+
+  <!-- ══ 1. INTRO ═══════════════════════════════════════════════ -->
+  <section class="intro" id="intro">
+    <div class="intro-content">
+      <h1 class="intro-name" data-scramble>Gwyn Fox</h1>
+      <p class="intro-line" data-split-reveal>
+        Creative technologist building tactile, expressive systems at the intersection of electronics, code, and craft.
+      </p>
+    </div>
+    <div class="intro-scroll-hint mono">scroll ↓</div>
+  </section>
+
+  <!-- ══ 2. PROJECT CARDS (horizontal scroll → morph into nav) ══ -->
+  <section class="project-cards" id="work">
+    <!-- Background parallax word -->
+    <div class="work-bg-word" aria-hidden="true">WORK</div>
+
+    <!-- Counter (updated by ScrollTrigger) -->
+    <div class="work-counter mono" aria-hidden="true">
+      <span id="work-current">01</span> / {String(totalCards).padStart(2, '0')}
+    </div>
+
+    <!-- Horizontal track -->
+    <div class="work-track" id="work-track">
+      {allPosts.map((post, i) => (
+        <a
+          class="work-card"
+          href={`${base}posts/${post.slug}`}
+          data-card-index={i}
+          data-card-slug={post.slug}
+        >
+          <div class="card-image">
+            <img src={normSrc(post.data.cover)} alt={post.data.title} loading="lazy" />
+          </div>
+          <div class="card-info">
+            <span class="mono card-date">
+              {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
+            </span>
+            <h3 class="card-title">{post.data.title}</h3>
+          </div>
+        </a>
+      ))}
+      {/* "Coming soon" placeholder cards to fill the row */}
+      {Array.from({ length: placeholderCount }).map((_, i) => (
+        <div class="work-card work-card-placeholder" data-card-index={allPosts.length + i}>
+          <div class="card-image card-image-placeholder">
+            <span class="mono">soon</span>
+          </div>
+          <div class="card-info">
+            <span class="mono card-date">—</span>
+            <h3 class="card-title">Coming soon</h3>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ══ 3. ABOUT ═══════════════════════════════════════════════ -->
+  <section class="about-section section" id="about">
+    <div class="container container--narrow">
+      <h2 data-split-reveal>About</h2>
+      <div class="bio">
+        <p>
+          I'm <strong>Gwyn Fox</strong>, a senior studying <strong>Creative Technology and Design</strong>
+          at the <strong>ATLAS Institute</strong>, University of Colorado Boulder. My work lives at the
+          intersection of physical computing, fabrication, and creative coding — I build things you can
+          touch, wear, and play with.
+        </p>
+        <p>
+          This portfolio documents my process across coursework and personal projects, from breadboard
+          prototypes to finished builds.
+        </p>
+      </div>
+
+      <h3 class="skills-heading mono">Skills</h3>
+      <p class="skills-line">
+        electronics · Arduino · fabrication · wearables · creative coding · video production
+      </p>
+
+      <h3 class="contact-heading mono">Contact</h3>
+      <div class="contact-links">
+        <a href="mailto:gwyn.fox@colorado.edu" data-magnetic>
+          <span class="mono">email</span>
+          <span>gwyn.fox@colorado.edu</span>
+        </a>
+        <a href="https://github.com/gwynfox" target="_blank" rel="noopener noreferrer" data-magnetic>
+          <span class="mono">github</span>
+          <span>github.com/gwynfox</span>
+        </a>
+        <a href="https://instagram.com/gwynfox" target="_blank" rel="noopener noreferrer" data-magnetic>
+          <span class="mono">instagram</span>
+          <span>@gwynfox</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ── Intro ───────────────────────────────────────────────────── */
+  .intro {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    padding: var(--space-4);
+  }
+
+  .intro-content {
+    max-width: 600px;
+  }
+
+  .intro-name {
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--space-2);
+  }
+
+  .intro-line {
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    color: var(--fg-muted);
+    line-height: 1.4;
+  }
+
+  .intro-scroll-hint {
+    position: absolute;
+    bottom: var(--space-4);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: var(--fg-muted);
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ── Project Cards ───────────────────────────────────────────── */
+  .project-cards {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    background: var(--bg-alt);
+    display: flex;
+    align-items: center;
+  }
+
+  .work-bg-word {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(8rem, 20vw, 18rem);
+    font-weight: 800;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--border);
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
+    letter-spacing: -0.05em;
+  }
+
+  .work-counter {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+    z-index: 2;
+  }
+
+  .work-track {
+    display: flex;
+    gap: var(--space-3);
+    padding: 0 var(--space-4);
+    position: relative;
+    z-index: 1;
+    /* On desktop GSAP overrides this with a pin; on mobile it's a swipe row */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .work-track::-webkit-scrollbar { display: none; }
+
+  .work-card {
+    flex: 0 0 340px;
+    max-width: 80vw;
+    scroll-snap-align: center;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .work-card:hover {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .card-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card-image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-alt);
+  }
+
+  .card-image-placeholder .mono {
+    color: var(--fg-muted);
+    font-size: 0.8rem;
+  }
+
+  .card-info {
+    padding: var(--space-2);
+  }
+
+  .card-date {
+    font-size: 0.72rem;
+    color: var(--fg-muted);
+  }
+
+  .card-title {
+    font-size: 1.15rem;
+    margin: var(--space-1) 0 0;
+  }
+
+  .work-card-placeholder {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  /* ── About ───────────────────────────────────────────────────── */
+  .about-section h2 {
+    margin-bottom: var(--space-3);
+  }
+
+  .bio p {
+    margin-bottom: var(--space-2);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  .bio strong {
+    font-weight: 600;
+  }
+
+  .skills-heading,
+  .contact-heading {
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-1);
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .skills-line {
+    font-size: 0.95rem;
+    color: var(--fg);
+    line-height: 1.6;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .contact-links a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-1) 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+    transition: padding-left var(--transition);
+  }
+
+  .contact-links a:hover {
+    padding-left: var(--space-2);
+  }
+
+  .contact-links a .mono {
+    font-size: 0.72rem;
+    color: var(--fg-muted);
+  }
+</style>

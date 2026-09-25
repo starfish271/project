@@ -1,0 +1,72 @@
+---
+/**
+ * BaseLayout.astro — wraps every page.
+ * - Loads fonts (Inter + JetBrains Mono from Google Fonts)
+ * - Astro View Transitions for page-to-page animation
+ * - Minimal: no theme toggle (light mode only per revised spec)
+ */
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+// Main animation controller — loads GSAP, matchMedia, and all effects
+import '../scripts/main.ts';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'Gwyn Fox — Creative Technology', description = 'Portfolio and project documentation by Gwyn Fox, Creative Technology & Design, ATLAS, CU Boulder.' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <title>{title}</title>
+  <ViewTransitions />
+</head>
+<body>
+  <main id="main">
+    <slot />
+  </main>
+
+  <!-- ── Footer ──────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="mono">© {new Date().getFullYear()} Gwyn Fox</span>
+      <span class="mono">ATLAS · CU Boulder</span>
+    </div>
+  </footer>
+</body>
+</html>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding: var(--space-4) 0;
+    margin-top: var(--space-7);
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  @media (max-width: 640px) {
+    .footer-inner {
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+  }
+</style>

@@ -1,0 +1,76 @@
+---
+/**
+ * YouTubeBlock — embeds a YouTube video from a URL + optional caption.
+ * Extracts video ID from various YouTube URL formats.
+ */
+interface Props {
+  url: string;
+  caption?: string;
+}
+
+const { url, caption } = Astro.props;
+
+// Extract video ID from watch?v=, youtu.be/, or embed/ URLs
+function extractVideoId(u: string): string | null {
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=)([\w-]{11})/,
+    /(?:youtu\.be\/)([\w-]{11})/,
+    /(?:youtube\.com\/embed\/)([\w-]{11})/,
+  ];
+  for (const p of patterns) {
+    const match = u.match(p);
+    if (match) return match[1];
+  }
+  return null;
+}
+
+const videoId = extractVideoId(url);
+---
+
+<div class="block-youtube container container--narrow" data-block="youtube" data-fade-in>
+  {videoId ? (
+    <figure>
+      <div class="video-wrapper">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+          title={caption || 'YouTube video'}
+          loading="lazy"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+      {caption && <figcaption class="mono">{caption}</figcaption>}
+    </figure>
+  ) : (
+    <p class="video-error mono">Could not parse YouTube URL: {url}</p>
+  )}
+</div>
+
+<style>
+  .block-youtube {
+    margin: var(--space-3) 0;
+  }
+  .video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+  .block-youtube figcaption {
+    text-align: center;
+    font-size: 0.78rem;
+    padding-top: var(--space-1);
+  }
+  .video-error {
+    color: var(--accent);
+    padding: var(--space-2);
+  }
+</style>
