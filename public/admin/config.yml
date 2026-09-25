@@ -12,7 +12,7 @@
 
 backend:
   name: github
-  repo: starfish271/iiswebsite
+  repo: starfish271/project
   branch: main
   # base_url is not needed for raw GitHub API auth; Sveltia handles it
 

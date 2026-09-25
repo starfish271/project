@@ -6,7 +6,7 @@ import react from '@astrojs/react';
 // When deploying to a custom domain or username.github.io repo, set base: "/".
 export default defineConfig({
   site: 'https://starfish271.github.io',
-  base: '/iiswebsite',
+  base: '/project',
   output: 'static',
   integrations: [react()],
   markdown: {
