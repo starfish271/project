@@ -23,8 +23,8 @@ media_folder: "public/uploads"
 # In the final URL, uploaded files appear under /project/uploads/
 public_folder: "/project/uploads"
 
-# Show drafts separately
-publish_mode: editorial_workflow
+# Save edits directly to the main branch so the site can deploy automatically
+publish_mode: simple
 
 # Collections ────────────────────────────────────────────────────
 collections:
