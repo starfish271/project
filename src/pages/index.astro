@@ -44,7 +44,12 @@ const MIN_CARDS = 4;
 const placeholderCount = Math.max(0, MIN_CARDS - allPosts.length);
 const totalCards = allPosts.length + placeholderCount;
 
-const normSrc = (img: string) => img.startsWith('http') ? img : `${base}/${img.replace(/^\//, '')}`;
+const normSrc = (img: string) => {
+  if (img.startsWith('http')) return img;
+  const clean = img.replace(/^\//, '');
+  if (clean.startsWith(base.replace(/^\//, '') + '/')) return `${base}/${clean}`;
+  return `${base}/${clean}`;
+};
 ---
 
 <BaseLayout title="Gwyn Fox — Creative Technology & Design">

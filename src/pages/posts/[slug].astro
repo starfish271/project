@@ -39,9 +39,16 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
   day: 'numeric',
 });
 
-const coverSrc = post.data.cover.startsWith('http')
-  ? post.data.cover
-  : `${base}/${post.data.cover.replace(/^\//, '')}`;
+// Normalize image path: handle http URLs, paths already prefixed with base, and bare paths
+function normImg(img: string, b: string): string {
+  if (img.startsWith('http')) return img;
+  const clean = img.replace(/^\//, '');
+  const baseNoSlash = b.replace(/^\//, '');
+  if (clean.startsWith(baseNoSlash + '/')) return `${b}/${clean}`;
+  return `${b}/${clean}`;
+}
+
+const coverSrc = normImg(post.data.cover, base);
 ---
 
 <BaseLayout title={`${post.data.title} — Gwyn Fox`} description={post.data.summary}>

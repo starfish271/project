@@ -20,8 +20,9 @@ site_url: https://starfish271.github.io/project/
 
 # Media uploads go to this folder in the repo
 media_folder: "public/uploads"
-# In the final URL, uploaded files appear under /project/uploads/
-public_folder: "/project/uploads"
+# In the final URL, uploaded files appear under /uploads/ — the site's
+# base path (/project) is prepended automatically by the code.
+public_folder: "/uploads"
 
 # Save edits directly to the main branch so the site can deploy automatically
 publish_mode: simple
