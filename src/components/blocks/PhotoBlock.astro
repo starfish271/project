@@ -12,13 +12,15 @@ interface Props {
 
 const { image, alt, caption, width = 'normal' } = Astro.props;
 const base = import.meta.env.BASE_URL;
-// Normalize image path: handle http URLs, paths already prefixed with base, and bare paths
+// Normalize image path: handle external URLs, old CMS paths, and new uploads.
 const src = (() => {
   if (image.startsWith('http')) return image;
-  const clean = image.replace(/^\//, '');
-  const baseNoSlash = base.replace(/^\//, '');
-  if (clean.startsWith(baseNoSlash + '/')) return `${base}/${clean}`;
-  return `${base}/${clean}`;
+  const clean = image.replace(/^\/+/, '');
+  const basePath = base.replace(/^\/+|\/+$/g, '');
+  const relative = basePath && clean.startsWith(`${basePath}/`)
+    ? clean.slice(basePath.length + 1)
+    : clean;
+  return `${base.replace(/\/?$/, '/')}${relative}`;
 })();
 ---
 

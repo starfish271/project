@@ -46,9 +46,12 @@ const totalCards = allPosts.length + placeholderCount;
 
 const normSrc = (img: string) => {
   if (img.startsWith('http')) return img;
-  const clean = img.replace(/^\//, '');
-  if (clean.startsWith(base.replace(/^\//, '') + '/')) return `${base}/${clean}`;
-  return `${base}/${clean}`;
+  const clean = img.replace(/^\/+/, '');
+  const basePath = base.replace(/^\/+|\/+$/g, '');
+  const relative = basePath && clean.startsWith(`${basePath}/`)
+    ? clean.slice(basePath.length + 1)
+    : clean;
+  return `${base.replace(/\/?$/, '/')}${relative}`;
 };
 ---
 

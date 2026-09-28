@@ -28,7 +28,15 @@ const settings = settingsEntry[0]?.data;
 const posts = (await getCollection('posts', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-const normSrc = (img: string) => img.startsWith('http') ? img : `${base}/${img.replace(/^\//, '')}`;
+const normSrc = (img: string) => {
+  if (img.startsWith('http')) return img;
+  const clean = img.replace(/^\/+/, '');
+  const basePath = base.replace(/^\/+|\/+$/g, '');
+  const relative = basePath && clean.startsWith(`${basePath}/`)
+    ? clean.slice(basePath.length + 1)
+    : clean;
+  return `${base.replace(/\/?$/, '/')}${relative}`;
+};
 ---
 
 <nav

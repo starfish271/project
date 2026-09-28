@@ -39,13 +39,15 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
   day: 'numeric',
 });
 
-// Normalize image path: handle http URLs, paths already prefixed with base, and bare paths
+// Normalize image path: handle external URLs, old CMS paths, and new uploads.
 function normImg(img: string, b: string): string {
   if (img.startsWith('http')) return img;
-  const clean = img.replace(/^\//, '');
-  const baseNoSlash = b.replace(/^\//, '');
-  if (clean.startsWith(baseNoSlash + '/')) return `${b}/${clean}`;
-  return `${b}/${clean}`;
+  const clean = img.replace(/^\/+/, '');
+  const basePath = b.replace(/^\/+|\/+$/g, '');
+  const relative = basePath && clean.startsWith(`${basePath}/`)
+    ? clean.slice(basePath.length + 1)
+    : clean;
+  return `${b.replace(/\/?$/, '/')}${relative}`;
 }
 
 const coverSrc = normImg(post.data.cover, base);
