@@ -140,13 +140,9 @@ export function initCardToNavMorph(): void {
     },
   });
 
-  // ── Background word and counter fade out ─────────────────────
-  const bgWord = section.querySelector<HTMLElement>('.work-bg-word');
+  // ── Counter fade out ──────────────────────────────────────────
   const counter = section.querySelector<HTMLElement>('.work-counter');
 
-  if (bgWord) {
-    tl.to(bgWord, { opacity: 0, duration: 0.2 }, 0);
-  }
   if (counter) {
     tl.to(counter, { opacity: 0, duration: 0.2 }, 0);
   }

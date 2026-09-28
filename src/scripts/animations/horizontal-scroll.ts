@@ -24,8 +24,7 @@ import { gsap, ScrollTrigger } from './gsap-setup';
 export function initHorizontalScroll(): void {
   const section = document.querySelector<HTMLElement>('#work');
   const track = document.querySelector<HTMLElement>('#work-track');
-  const bgWord = document.querySelector<HTMLElement>('.work-bg-word');
-  const counter = document.querySelector<HTMLElement>('#work-current');
+const counter = document.querySelector<HTMLElement>('#work-current');
 
   if (!section || !track) return;
 
@@ -77,27 +76,6 @@ export function initHorizontalScroll(): void {
       }
     );
   });
-
-  // ── Background parallax word ─────────────────────────────────
-  // "WORK" moves across the background more slowly than the cards
-  // for a parallax effect. It shifts from right to left as we scroll.
-  if (bgWord) {
-    gsap.fromTo(
-      bgWord,
-      { xPercent: 30 },
-      {
-        xPercent: -30,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: () => `+=${getScrollDistance()}`,
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-      }
-    );
-  }
 
   // ── Counter update ───────────────────────────────────────────
   // Updates the "01 / 04" counter as each card passes the center.
