@@ -2,7 +2,7 @@
 title: 'Lab 1: Capacitive Sensing'
 date: 2025-09-20
 summary: Using an esp32, tinfoil, cardboard, and jumper wires to make simple capacitive touch systems.
-cover: /project/uploads/IMG_2767.jpeg
+cover: /project/uploads/IMG_2768.jpeg
 draft: false
 blocks:
   - type: paragraph
