@@ -4,7 +4,7 @@ nav_initials: home
 tagline: Building creative technology and experimenting with interactive systems, programming with arduino, and working with esp32.
 about_title: About This Site
 about_bio:
-  - I'm \*\*Gwyn Fox\*\*, a senior studying **Creative Technology and Design** University of Colorado Boulder. Much of my work lives at the intersection of physical computing, fabrication, and creative coding. As part of my Inventing Interactive Systems course through ATLAS, I'm using this website to document projects and experiments with Interactive Systems.
+  - I'm Gwyn, a senior studying **Creative Technology and Design** University of Colorado Boulder. Much of my work lives at the intersection of physical computing, fabrication, and creative coding. As part of my Inventing Interactive Systems course through ATLAS, I'm using this website to document projects and experiments with Interactive Systems.
   - This portfolio documents my process across coursework and personal projects, from breadboard prototypes to finished builds.
 skills:
   - electronics
