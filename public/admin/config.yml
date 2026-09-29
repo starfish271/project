@@ -148,6 +148,16 @@ collections:
         default: false
         hint: "Drafts are not published — they won't appear on the site."
 
+      - name: "status"
+        label: "Project status"
+        widget: "select"
+        default: "in-progress"
+        options:
+          - { label: "Completed", value: "completed" }
+          - { label: "In Progress", value: "in-progress" }
+          - { label: "Planned", value: "planned" }
+        hint: "Shown as a colored badge on the project card and post page."
+
       # ── Content blocks (the main body) ─────────────────────────
       # This is a list widget. You can add, reorder (drag), edit, and
       # delete blocks in any order. Each block type has its own fields.

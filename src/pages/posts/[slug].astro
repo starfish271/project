@@ -51,6 +51,8 @@ function normImg(img: string, b: string): string {
 }
 
 const coverSrc = normImg(post.data.cover, base);
+
+const statusLabel = post.data.status === 'in-progress' ? 'In Progress' : post.data.status === 'completed' ? 'Completed' : 'Planned';
 ---
 
 <BaseLayout title={`${post.data.title} — Gwyn Fox`} description={post.data.summary}>
@@ -65,6 +67,10 @@ const coverSrc = normImg(post.data.cover, base);
     <header class="post-header container container--narrow">
       <div class="post-meta mono">
         <time datetime={post.data.date.toISOString()}>{formattedDate}</time>
+        <span class={`post-status post-status--${post.data.status}`}>
+          <span class="status-dot"></span>
+          {statusLabel}
+        </span>
       </div>
       <h1 class="post-title" data-split-reveal>{post.data.title}</h1>
       <p class="post-summary">{post.data.summary}</p>
@@ -125,6 +131,33 @@ const coverSrc = normImg(post.data.cover, base);
     margin-bottom: var(--space-2);
     font-size: 0.8rem;
     color: var(--fg-muted);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .post-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: #fff;
+  }
+
+  .post-status--completed {
+    background: #228b57;
+  }
+
+  .post-status--in-progress {
+    background: var(--accent);
+  }
+
+  .post-status--planned {
+    background: var(--fg-muted);
   }
 
   .post-title {

@@ -59,6 +59,7 @@ const posts = defineCollection({
     summary: z.string(),
     cover: z.string(),
     draft: z.boolean().default(false),
+    status: z.enum(['completed', 'in-progress', 'planned']).default('in-progress'),
     blocks: z.array(blockSchema).default([]),
   }),
 });
