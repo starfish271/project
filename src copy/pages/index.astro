@@ -19,14 +19,14 @@ const base = import.meta.env.BASE_URL;
 // Site settings (editable through the admin portal)
 const settingsEntry = await getCollection('settings');
 const settings = settingsEntry[0]?.data ?? {
-  name: 'Gwyn Fox',
+  name: 'Portfolio',
   tagline: '',
   about_title: 'About',
   about_bio: [],
   skills: [],
   contact_links: [],
-  nav_initials: 'GF',
-  footer_left: 'ATLAS · CU Boulder',
+  nav_initials: 'AB',
+  footer_left: '',
 };
 
 // All published posts, newest first
@@ -55,7 +55,7 @@ const normSrc = (img: string) => {
 };
 ---
 
-<BaseLayout title="Gwyn Fox — Creative Technology & Design">
+<BaseLayout title={`${settings.name} — Creative Technology & Design`}>
   <!-- The slim nav bar — hidden by default, revealed by morph animation -->
   <NavBar fixed={false} />
 

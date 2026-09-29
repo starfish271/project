@@ -79,7 +79,7 @@ const siteSettings = defineCollection({
       url: z.string(),
     })).default([]),
     nav_initials: z.string().default('GF'),
-    footer_left: z.string().default('ATLAS · CU Boulder'),
+    footer_left: z.string().default(''),
   }),
 });
 

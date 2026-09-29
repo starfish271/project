@@ -1,4 +1,4 @@
-# Gwyn Fox — Portfolio
+# Project Documentation Site
 
 A blog-style portfolio website built with Astro, GSAP animations, and Sveltia CMS for editing posts without writing code.
 
@@ -49,6 +49,7 @@ The token is stored in your browser's local storage. You can revoke it anytime f
    - **Summary**: a short one-line description
    - **Cover image**: uploaded to `public/uploads/`
    - **Draft**: toggle to hide from the live site
+   - **Project status**: Completed, In Progress, or Planned (shown as a colored badge)
    - **Content blocks**: add, reorder (drag), edit, and delete blocks in any order
 5. Click "Save" — the CMS commits the post to your repo as a Markdown file in `src/content/posts/`
 
@@ -66,10 +67,10 @@ The token is stored in your browser's local storage. You can revoke it anytime f
 
 This site deploys automatically via GitHub Actions when you push to `main`.
 
-### First-time setup
+### First-time setup for a new site
 
-1. **Update `astro.config.mjs`**: set `base` to `"/your-repo-name"` and `site` to your GitHub Pages URL (e.g. `https://gwynfox.github.io`)
-2. **Update `public/admin/config.yml`**: set `backend.repo` to `your-username/your-repo-name`
+1. **Update `astro.config.mjs`**: set `SITE_URL` to your GitHub Pages URL and `BASE_PATH` to `"/your-repo-name"`
+2. **Update `public/admin/config.yml`**: set `backend.repo` to `your-username/your-repo-name` and `site_url` to your Pages URL
 3. Push to GitHub
 4. In your repo: **Settings → Pages → Source → "GitHub Actions"**
 5. The workflow in `.github/workflows/deploy.yml` builds and deploys automatically

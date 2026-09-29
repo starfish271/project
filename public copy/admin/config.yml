@@ -8,15 +8,20 @@
 # When you sign in through the CMS UI, enter your GitHub username
 # and a personal access token with "repo" scope. The CMS will commit
 # new and edited posts directly to the repo.
+#
+# ══ WHEN CREATING A NEW SITE FROM THIS TEMPLATE ════════════════
+# Change ONLY these two values:
+#   1. repo:  your-github-username/your-repo-name
+#   2. site_url: https://your-github-username.github.io/your-repo-name/
+# Also update astro.config.mjs (SITE_URL and BASE_PATH).
 # ═══════════════════════════════════════════════════════════════
 
 backend:
   name: github
-  repo: starfish271/project
+  repo: starfish271/extx-site  # CHANGE THIS: your-username/your-repo
   branch: main
-  # base_url is not needed for raw GitHub API auth; Sveltia handles it
 
-site_url: https://starfish271.github.io/project/
+site_url: https://starfish271.github.io/extx-site/  # CHANGE THIS
 
 # Media uploads go to this folder in the repo
 media_folder: "public/uploads"

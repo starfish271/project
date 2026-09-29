@@ -18,8 +18,8 @@ interface Props {
 
 const settingsEntry = await getCollection('settings');
 const settings = settingsEntry[0]?.data;
-const name = settings?.name ?? 'Gwyn Fox';
-const footerLeft = settings?.footer_left ?? 'ATLAS · CU Boulder';
+const name = settings?.name ?? 'Portfolio';
+const footerLeft = settings?.footer_left ?? '';
 
 const { title = `${name} — Creative Technology`, description = `Portfolio and project documentation by ${name}.` } = Astro.props;
 const base = import.meta.env.BASE_URL;
