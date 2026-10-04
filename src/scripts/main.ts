@@ -24,6 +24,7 @@ import { initHorizontalScroll } from './animations/horizontal-scroll';
 import { initCardToNavMorph } from './animations/card-to-nav-morph';
 import { initPostAnimations } from './animations/post-animations';
 import { initMagneticEffect } from './animations/magnetic-effect';
+import { initFloatingOrbs } from './animations/floating-orbs';
 
 // ── Guard: only run in the browser (not during SSR) ───────────
 // Astro processes script imports during SSG, but GSAP needs window.
@@ -53,6 +54,7 @@ function initSmoothScroll(): void {
 // ── Full animation suite (desktop, no reduced motion) ────────
 function initFullAnimations(): void {
   initSmoothScroll();
+  initFloatingOrbs();
   initIntroScramble();
   initHeadingReveal();
   initHorizontalScroll();
