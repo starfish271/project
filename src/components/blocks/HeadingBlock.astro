@@ -1,0 +1,21 @@
+---
+/**
+ * HeadingBlock — renders a section heading (h2).
+ */
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<h2 class="block-heading container container--narrow" data-block="heading" data-split-reveal>{text}</h2>
+
+<style>
+  .block-heading {
+    margin-top: var(--space-5);
+    margin-bottom: var(--space-2);
+    font-size: 1.6rem;
+    scroll-margin-top: 80px;
+  }
+</style>
