@@ -1,0 +1,39 @@
+---
+/**
+ * BlockRenderer.astro — dispatches each content block to its component.
+ * To add a new block type:
+ *   1. Add the schema in src/content/config.ts
+ *   2. Create a component in src/components/blocks/
+ *   3. Add a case below + import above
+ *   4. Add the field config to public/admin/config.yml
+ */
+import HeadingBlock from './blocks/HeadingBlock.astro';
+import ParagraphBlock from './blocks/ParagraphBlock.astro';
+import PhotoBlock from './blocks/PhotoBlock.astro';
+import YouTubeBlock from './blocks/YouTubeBlock.astro';
+import CodeBlock from './blocks/CodeBlock.astro';
+
+interface Block {
+  type: string;
+  [key: string]: any;
+}
+
+const { blocks } = Astro.props as { blocks: Block[] };
+---
+
+{blocks.map((block) => {
+  switch (block.type) {
+    case 'heading':
+      return <HeadingBlock text={block.text} />;
+    case 'paragraph':
+      return <ParagraphBlock body={block.body} />;
+    case 'photo':
+      return <PhotoBlock image={block.image} alt={block.alt} caption={block.caption} width={block.width} />;
+    case 'youtube':
+      return <YouTubeBlock url={block.url} caption={block.caption} />;
+    case 'code':
+      return <CodeBlock code={block.code} language={block.language} filename={block.filename} />;
+    default:
+      return null;
+  }
+})}
