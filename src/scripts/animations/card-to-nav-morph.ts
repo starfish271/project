@@ -54,6 +54,9 @@ export function initCardToNavMorph(): void {
 
   const morphDistance = 400; // px of vertical scroll for the morph
 
+  const getHorizontalDistance = (): number =>
+    track.scrollWidth - window.innerWidth + 200;
+
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: section,
@@ -61,12 +64,10 @@ export function initCardToNavMorph(): void {
         // Start after the horizontal scroll ends.
         // The horizontal pin ends at `+=${getScrollDistance()}`.
         // We need to start the morph right after that.
-        const horizDist = track.scrollWidth - window.innerWidth + 200;
-        return `top top+=${horizDist}`;
+        return `top top+=${getHorizontalDistance()}`;
       },
       end: () => {
-        const horizDist = track.scrollWidth - window.innerWidth + 200;
-        return `top top+=${horizDist + morphDistance}`;
+        return `top top+=${getHorizontalDistance() + morphDistance}`;
       },
       scrub: 1,
       invalidateOnRefresh: true,
