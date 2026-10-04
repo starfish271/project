@@ -1,28 +1,19 @@
 ---
-title: Week 3 Studio Cycle
+title: 'Week 2 Studio Cycle: Esp32 Dev board'
 date: 2025-09-20
-summary: Using an esp32, tinfoil, cardboard, and jumper wires to make simple capacitive touch systems.
-cover: /project/uploads/IMG_2768.jpeg
+summary: Using 2 esp32 development boards with attached LCD display and Claude Code, I prototyped a mini digital typewriter and drawing pad.
+cover: /uploads/Screenshot 2026-10-03 at 10.01.50 PM.png
 draft: false
 status: completed
 blocks:
   - type: paragraph
-    body: |-
-      <p>This is a template post showing how each content block looks on the page. It's not a real project — just a reference so you can see the formatting before you start writing your own posts through the <a href="/admin">admin portal</a>.</p>
-      <p>The classic "blink an LED" sketch is the hello world of physical computing. You wire an LED to a digital pin, then toggle it on and off with a delay. Let's walk through it.</p>
-  - type: photo
-    image: https://images.pexels.com/photos/15470542/pexels-photo-15470542.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
-    alt: Arduino microcontroller connected to a breadboard with a glowing LED
-    caption: An Arduino Nano on a breadboard with a single LED and resistor.
-    width: wide
+    body: <p>The inspiration behind this project was a project that I did for another ATLAS class last semester. I got these two dev boards over the summer so I could start prototyping version 2 of my pocket notetaker device, but really never got around to it, so I thought this assignment would be a great opportunity to start developing. Claude Code is what I used mainly, and also had another chat running on the side to ask questions. Eventually I was able to make it work exactly as intended. </p>
   - type: heading
-    text: The Circuit
+    text: The Prompt
   - type: paragraph
-    body: |-
-      <p>The circuit is simple: connect the long leg of an LED (anode) to a <strong>220&Omega; resistor</strong>, then to <strong>pin 13</strong> on the Arduino. Connect the short leg (cathode) to <strong>GND</strong>. The resistor limits current so the LED doesn't burn out.</p>
-      <p>You don't strictly need the resistor if you're just testing — pin 13 has a built-in LED on most Arduino boards — but it's good practice to include one.</p>
+    body: <p>I first had an existing claude chat that I used for version 1 to write me a prompt to give to claude code based on the hardware I had and the vision for this project. </p>
   - type: code
-    language: cpp
+    language: python
     filename: blink.ino
     code: |-
       // Blink — turns an LED on for 1 second, then off, repeatedly.
@@ -41,11 +32,8 @@ blocks:
       }
   - type: heading
     text: Demo
-  - type: youtube
-    caption: Replace this placeholder URL with your own demo video.
-    url: v=dQw4w9WgXcQ
   - type: paragraph
-    body: <p>And that's it — the foundation of every Arduino project. From here you can add buttons, sensors, motors, or displays. The blink sketch is a great way to verify your board is working before you build something more complex.</p>
+    body: <p>This prototype was an idea I've had for a while and using Claude Code really made the process smooth and fast.</p>
 ---
 
 This body text is ignored — the blocks in the frontmatter are what render on the page.
