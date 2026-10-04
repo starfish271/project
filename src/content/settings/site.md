@@ -1,15 +1,14 @@
 ---
-name: Inventing Interactive Systems Lab Docs
+name: 'Learn, Vibe, Build: Documentation Site'
 nav_initials: <
-tagline: Class and personal projects with electronics, arduino, and more.
+tagline: Documenting class and personal projects that I built using AI to support my learning.
 about_title: About This Site
 about_bio:
-  - I'm Gwyn Fox, a senior studying Creative Technology and Design at the ATLAS Institute, University of Colorado Boulder. My work lives at the intersection of physical computing, fabrication, and creative coding — I build things you can touch, wear, and play with.
-  - This portfolio documents my process across coursework and personal projects, from breadboard prototypes to finished builds.
+  - I'm Gwyn Fox, a senior studying Creative Technology and Design at the ATLAS Institute, University of Colorado Boulder. My work lives at the intersection of physical computing, fabrication, and creative coding.
+  - This portfolio documents my process across coursework and personal projects, from breadboard prototypes, to websites, apps, and more.
 skills:
   - electronics
   - Arduino
-  - fabrication
   - wearables
   - creative coding
 contact_links:
