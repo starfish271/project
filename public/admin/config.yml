@@ -1,0 +1,278 @@
+# ═══════════════════════════════════════════════════════════════
+# Sveltia CMS Configuration
+# ═══════════════════════════════════════════════════════════════
+# This file tells Sveltia CMS what collections exist and what fields
+# each entry has. The CMS reads this on load from /admin/config.yml.
+#
+# Backend: GitHub (via personal access token).
+# When you sign in through the CMS UI, enter your GitHub username
+# and a personal access token with "repo" scope. The CMS will commit
+# new and edited posts directly to the repo.
+#
+# ══ WHEN CREATING A NEW SITE FROM THIS TEMPLATE ════════════════
+# Change ONLY these two values:
+#   1. repo:  your-github-username/your-repo-name
+#   2. site_url: https://your-github-username.github.io/your-repo-name/
+# Also update astro.config.mjs (SITE_URL and BASE_PATH).
+# ═══════════════════════════════════════════════════════════════
+
+backend:
+  name: github
+  repo: starfish271/project  # CHANGE THIS: your-username/your-repo
+  branch: main
+
+site_url: https://starfish271.github.io/project/  # CHANGE THIS
+
+# Media uploads go to this folder in the repo
+media_folder: "public/uploads"
+# In the final URL, uploaded files appear under /uploads/ — the site's
+# base path (/project) is prepended automatically by the code.
+public_folder: "/uploads"
+
+# Save edits directly to the main branch so the site can deploy automatically
+publish_mode: simple
+
+# Collections ────────────────────────────────────────────────────
+collections:
+  # ── Site Settings (home page content) ─────────────────────────
+  - name: "settings"
+    label: "Site Settings"
+    label_singular: "Site Settings"
+    folder: "src/content/settings"
+    create: false
+    delete: false
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+
+    fields:
+      - name: "name"
+        label: "Your name"
+        widget: "string"
+        hint: "Shown large at the top of the home page and in the nav bar."
+
+      - name: "nav_initials"
+        label: "Nav initials"
+        widget: "string"
+        hint: "Short initials shown in the sticky nav bar (e.g. GF)."
+
+      - name: "tagline"
+        label: "Tagline"
+        widget: "text"
+        hint: "One line under your name on the home page."
+
+      - name: "about_title"
+        label: "About section title"
+        widget: "string"
+        default: "About"
+        hint: "The heading for the about section."
+
+      - name: "about_bio"
+        label: "About paragraphs"
+        widget: "list"
+        required: false
+        hint: "Each item is a paragraph. Use **bold** for emphasis."
+        field:
+          name: "paragraph"
+          label: "Paragraph"
+          widget: "markdown"
+          hint: "Write one paragraph. Supports bold, links, and lists."
+
+      - name: "skills"
+        label: "Skills"
+        widget: "list"
+        required: false
+        hint: "Each item is a skill (e.g. Arduino, fabrication)."
+        field:
+          name: "skill"
+          label: "Skill"
+          widget: "string"
+
+      - name: "contact_links"
+        label: "Contact links"
+        widget: "list"
+        required: false
+        hint: "Links shown in the contact section. Each has a label, display text, and URL."
+        fields:
+          - name: "label"
+            label: "Label"
+            widget: "string"
+            hint: "Small label (e.g. email, github, instagram)."
+          - name: "value"
+            label: "Display text"
+            widget: "string"
+            hint: "What's shown to the visitor (e.g. gwyn.fox@colorado.edu)."
+          - name: "url"
+            label: "URL"
+            widget: "string"
+            hint: "Where the link goes (e.g. mailto:gwyn.fox@colorado.edu)."
+
+      - name: "footer_left"
+        label: "Footer text (left side)"
+        widget: "string"
+        default: "ATLAS · CU Boulder"
+        hint: "Shown on the left side of the footer."
+
+  # ── Posts ─────────────────────────────────────────────────────
+  - name: "posts"
+    label: "Posts"
+    label_singular: "Post"
+    folder: "src/content/posts"
+    create: true
+    delete: true
+    slug: "{{title}}"
+    extension: "md"
+    format: "frontmatter"
+
+    fields:
+      # ── Post metadata ──────────────────────────────────────────
+      - name: "title"
+        label: "Title"
+        widget: "string"
+        hint: "The post title shown at the top of the page."
+
+      - name: "date"
+        label: "Date"
+        widget: "datetime"
+        hint: "Publication date. Used for sorting."
+
+      - name: "summary"
+        label: "Summary"
+        widget: "text"
+        hint: "A short one-line description shown under the title and in card previews."
+
+      - name: "cover"
+        label: "Cover image"
+        widget: "image"
+        hint: "Shown at the top of the post and as the card thumbnail."
+        required: true
+
+      - name: "draft"
+        label: "Draft"
+        widget: "boolean"
+        default: false
+        hint: "Drafts are not published — they won't appear on the site."
+
+      - name: "status"
+        label: "Project status"
+        widget: "select"
+        default: "in-progress"
+        options:
+          - { label: "Completed", value: "completed" }
+          - { label: "In Progress", value: "in-progress" }
+          - { label: "Planned", value: "planned" }
+        hint: "Shown as a colored badge on the project card and post page."
+
+      # ── Content blocks (the main body) ─────────────────────────
+      # This is a list widget. You can add, reorder (drag), edit, and
+      # delete blocks in any order. Each block type has its own fields.
+      - name: "blocks"
+        label: "Content blocks"
+        widget: "list"
+        required: false
+        hint: "Build your post by adding blocks in any order. Drag to reorder."
+        types:
+          # 1. Heading
+          - name: "heading"
+            label: "Heading"
+            widget: "object"
+            summary: "Heading: {{text}}"
+            fields:
+              - name: "type"
+                widget: "hidden"
+                default: "heading"
+              - name: "text"
+                label: "Heading text"
+                widget: "string"
+                hint: "A single line of text, shown as a section heading."
+
+          # 2. Paragraph (rich text)
+          - name: "paragraph"
+            label: "Paragraph"
+            widget: "object"
+            summary: "Paragraph"
+            fields:
+              - name: "type"
+                widget: "hidden"
+                default: "paragraph"
+              - name: "body"
+                label: "Text"
+                widget: "markdown"
+                hint: "Rich text — bold, italic, links, lists. No images here; use the Photo block."
+
+          # 3. Photo
+          - name: "photo"
+            label: "Photo"
+            widget: "object"
+            summary: "Photo"
+            fields:
+              - name: "type"
+                widget: "hidden"
+                default: "photo"
+              - name: "image"
+                label: "Image"
+                widget: "image"
+                hint: "Upload or choose an image. Files go to public/uploads/."
+              - name: "alt"
+                label: "Alt text"
+                widget: "string"
+                hint: "Describe the image for screen readers."
+              - name: "caption"
+                label: "Caption (optional)"
+                widget: "string"
+                required: false
+              - name: "width"
+                label: "Width"
+                widget: "select"
+                default: "normal"
+                options:
+                  - { label: "Normal (reading width)", value: "normal" }
+                  - { label: "Wide (page width)", value: "wide" }
+                  - { label: "Full-bleed (edge to edge)", value: "full-bleed" }
+
+          # 4. YouTube video
+          - name: "youtube"
+            label: "YouTube video"
+            widget: "object"
+            summary: "YouTube: {{url}}"
+            fields:
+              - name: "type"
+                widget: "hidden"
+                default: "youtube"
+              - name: "url"
+                label: "YouTube URL"
+                widget: "string"
+                hint: "Paste a full YouTube URL (watch, youtu.be, or embed)."
+              - name: "caption"
+                label: "Caption (optional)"
+                widget: "string"
+                required: false
+
+          # 5. Code block
+          - name: "code"
+            label: "Code block"
+            widget: "object"
+            summary: "Code: {{language}}"
+            fields:
+              - name: "type"
+                widget: "hidden"
+                default: "code"
+              - name: "language"
+                label: "Language"
+                widget: "select"
+                default: "cpp"
+                options:
+                  - { label: "Arduino / C++", value: "cpp" }
+                  - { label: "JavaScript", value: "javascript" }
+                  - { label: "Python", value: "python" }
+                  - { label: "HTML", value: "html" }
+                  - { label: "CSS", value: "css" }
+              - name: "filename"
+                label: "Filename label (optional)"
+                widget: "string"
+                required: false
+                hint: "Shown in the header bar, e.g. blink.ino"
+              - name: "code"
+                label: "Code"
+                widget: "text"
+                hint: "Paste your code. It will be syntax-highlighted on the page."
