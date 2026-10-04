@@ -8,8 +8,6 @@
 import '../styles/global.css';
 import { ViewTransitions } from 'astro:transitions';
 import { getCollection } from 'astro:content';
-// Main animation controller — loads GSAP, matchMedia, and all effects
-import '../scripts/main.ts';
 
 interface Props {
   title?: string;
@@ -40,6 +38,9 @@ const base = import.meta.env.BASE_URL;
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <title>{title}</title>
   <ViewTransitions />
+  <script>
+    import '../scripts/main.ts';
+  </script>
 </head>
 <body>
   <main id="main">
