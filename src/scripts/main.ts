@@ -17,7 +17,7 @@
  *     → No animations; content shows immediately; cards are a swipe row
  */
 
-import { gsap, ScrollTrigger, ScrollSmoother } from './animations/gsap-setup';
+import { gsap, ScrollTrigger } from './animations/gsap-setup';
 import { initIntroScramble } from './animations/intro-scramble';
 import { initHeadingReveal } from './animations/heading-reveal';
 import { initHorizontalScroll } from './animations/horizontal-scroll';
@@ -32,28 +32,8 @@ import { initFloatingOrbs } from './animations/floating-orbs';
 // again in the browser when the page loads.
 if (typeof window !== 'undefined') {
 
-// ── Smooth scrolling wrapper ──────────────────────────────────
-// ScrollSmoother creates a wrapper div for smooth, inertia-based
-// scrolling. We only enable it on desktop without reduced-motion.
-let smoother: ScrollSmoother | null = null;
-
-function initSmoothScroll(): void {
-  if (smoother) {
-    smoother.kill();
-    smoother = null;
-  }
-  smoother = ScrollSmoother.create({
-    wrapper: '#main',
-    content: '#main',
-    smooth: 0.6,
-    effects: true,
-    normalizeScroll: true,
-  });
-}
-
 // ── Full animation suite (desktop, no reduced motion) ────────
 function initFullAnimations(): void {
-  initSmoothScroll();
   initFloatingOrbs();
   initIntroScramble();
   initHeadingReveal();
@@ -81,10 +61,6 @@ function initMinimalAnimations(): void {
 // ── Cleanup: kill all ScrollTriggers before re-init ──────────
 function cleanupAnimations(): void {
   ScrollTrigger.getAll().forEach((st) => st.kill());
-  if (smoother) {
-    smoother.kill();
-    smoother = null;
-  }
 }
 
 // ── MatchMedia: the single source of truth for what runs ─────
