@@ -21,7 +21,6 @@ import { gsap, ScrollTrigger } from './animations/gsap-setup';
 import { initIntroScramble } from './animations/intro-scramble';
 import { initHeadingReveal } from './animations/heading-reveal';
 import { initHorizontalScroll } from './animations/horizontal-scroll';
-import { initCardToNavMorph } from './animations/card-to-nav-morph';
 import { initPostAnimations } from './animations/post-animations';
 import { initMagneticEffect } from './animations/magnetic-effect';
 import { initFloatingOrbs } from './animations/floating-orbs';
@@ -34,13 +33,18 @@ if (typeof window !== 'undefined') {
 
 // ── Full animation suite (desktop, no reduced motion) ────────
 function initFullAnimations(): void {
-  initFloatingOrbs();
-  initIntroScramble();
+  const isHomePage = Boolean(document.querySelector('#intro'));
+
+  if (isHomePage) {
+    document.getElementById('site-nav-bar')?.classList.add('is-visible');
+    initFloatingOrbs();
+    initIntroScramble();
+    initHorizontalScroll();
+    initMagneticEffect();
+  }
+
   initHeadingReveal();
-  initHorizontalScroll();
-  initCardToNavMorph();
   initPostAnimations();
-  initMagneticEffect();
   ScrollTrigger.refresh();
 }
 
@@ -60,6 +64,7 @@ function initMinimalAnimations(): void {
 
 // ── Cleanup: kill all ScrollTriggers before re-init ──────────
 function cleanupAnimations(): void {
+  mm.revert();
   ScrollTrigger.getAll().forEach((st) => st.kill());
 }
 
