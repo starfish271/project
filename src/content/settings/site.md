@@ -1,7 +1,7 @@
 ---
 name: 'Learn, Vibe, Build: Documentation Site'
 nav_initials: <
-tagline: Documenting class and personal projects that I built using AI to support my learning.
+tagline: Documentation for ATLS 4519-005, things I've built for personal and class projects where AI was used to support learning and creativity.
 about_title: About This Site
 about_bio:
   - I'm Gwyn Fox, a senior studying Creative Technology and Design at the ATLAS Institute, University of Colorado Boulder. My work lives at the intersection of physical computing, fabrication, and creative coding.
