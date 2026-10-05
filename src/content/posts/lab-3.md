@@ -1,5 +1,5 @@
 ---
-title: 'Week 1: Intentions'
+title: 'Week 1: Intention'
 date: 2026-10-03T21:08:00
 summary: Talking about my journey with AI and how I want to use AI and what I learn in this class to support my creativity.
 cover: /uploads/butterfly_png_by_heemipetal2004-d7k9vrc.png
