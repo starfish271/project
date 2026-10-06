@@ -214,4 +214,19 @@ blocks:
     alt: Editing a post through Sveltia CMS admin portal.
     caption: Editing a post through Sveltia CMS admin portal
     width: normal
+  - type: heading
+    text: Final Product
+  - type: paragraph
+    body: |-
+      I started out by creating a website for my Inventing Interactive Systems class, and was planning on using that as a template for the two others, including this one. But after having some issues with duplicating all the files and pushing everything to github, I just ended up making the original "template" into this website we are currently on! Everything is managed through github and the admin portal can be accessed with a github access token.
+
+      The github repo for this can be accessed here: [https://github.com/starfish271/project](https://github.com/starfish271/project) 
+
+      Homepage for the site can be accessed here:
+      [https://starfish271.github.io/project/](https://starfish271.github.io/project/)
+
+      Admin portal:
+      [https://starfish271.github.io/project/](https://starfish271.github.io/project/admin)[admin](https://starfish271.github.io/project/admin)
+
+      I also got another working blog-style website up and running that I will be using for my Experimental Textiles course. I basically just duplicated all the files, added them into a new github repo, had bolt make any necessary setup changes to the code, and edited all the text in the admin portal to fit the associated class.
 ---
