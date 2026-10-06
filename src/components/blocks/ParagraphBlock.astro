@@ -1,4 +1,6 @@
 ---
+import { marked } from 'marked';
+
 /**
  * ParagraphBlock — renders rich-text HTML (bold, italic, links, lists).
  * The CMS editor outputs HTML directly; we sanitize via set:html.
@@ -8,10 +10,11 @@ interface Props {
 }
 
 const { body } = Astro.props;
+const renderedBody = marked.parse(body, { async: false });
 ---
 
 <div class="block-paragraph container container--narrow" data-block="paragraph">
-  <div class="prose" set:html={body}></div>
+  <div class="prose" set:html={renderedBody}></div>
 </div>
 
 <style>
