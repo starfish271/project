@@ -10,7 +10,11 @@ interface Props {
 }
 
 const { body } = Astro.props;
-const renderedBody = marked.parse(body, { async: false });
+const markdownBody = body
+  .replace(/<p\b[^>]*>/gi, '')
+  .replace(/<\/p>/gi, '\n\n')
+  .replace(/\[ \]\([^)]*\)/g, '');
+const renderedBody = marked.parse(markdownBody, { async: false });
 ---
 
 <div class="block-paragraph container container--narrow" data-block="paragraph">
