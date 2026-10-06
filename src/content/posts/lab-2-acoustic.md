@@ -185,4 +185,33 @@ blocks:
       4. The card-to-nav morph.
       5. Post page animations, magnetic effects, smooth scrolling.
       6. Reduced-motion/mobile pass, then documentation.
+  - type: paragraph
+    body: |-
+      I also gave similar prompts to stitch, but stitch was a bit unconventional in that you can prompt in other ways besides through chat.
+
+      Also, Stitch is great for creating mockups, ideation and trying out different styles, prototyping interfaces for future builds and preparing drafts for figma. However, when it comes to creating functional websites that I can deploy to a github repo and manage myself, Bolt and Claude were better at building the tangible, usable product. 
+
+      While Stitch's Interface is super unique and interactive, with so many features and capabilities for prototyping, I'd need to play around with it more before deciding whether it's something I'd use in a website-building workflow.
+  - type: photo
+    image: /uploads/Screenshot 2026-10-05 at 6.00.31 PM.png
+    alt: draft mockup in Stitch AI
+    caption: Preview and edit modes in Stitch AI using rough draft AI prompt mockup
+    width: normal
+  - type: paragraph
+    body: |-
+      After a few experiments with Stitch, I switched to just using Bolt and Claude. When creating these initial prompts, I mainly used Claude to help figure out what tech stack to use. I have experience using HTML, CSS, and JavaScript to build websites, and also have used free website building software and blog sites like wordpress, wix, etc, but I wanted to build something that I could easily and quickly make changes to without always having to edit and manage a bunch of code and files, but still be able to do so if needed. I also didn't want to have to use a third party service, or be limited in what I could build, so after chatting with Claude, we decided to build a prompt to give to bolt to use an astro template, sveltia cms for the admin portal, and use GSAP animations on the site. Claude was very helpful at coming up with a prompt that explained exactly how I wanted it to be laid out. 
+
+      Bolt did a great job at laying out the website and making it super customizable by incorporating Sveltia CMS, which is a free service you can read more about here: [https://github.com/sveltia/sveltia-cms](https://github.com/sveltia/sveltia-cms)
+
+      Both Bolt and Claude were really great at walking me through how to actually set everything up, deploy to github, and make changes that immediately deploy to the website via github. One of the things I like about using AI in these processes is how easy it is to create complex code and actually put it out there without needing extensive prior programming knowledge. Not only is it doing a lot of the hard parts by writing code, but its also a great tool for learning how these systems, like building a website/app/etc, actually works and what that looks like/different ways to go about it.
+  - type: photo
+    image: /uploads/Screenshot 2026-10-05 at 5.28.14 PM.png
+    alt: Sveltia CMS admin portal for experimental textiles documentation site
+    caption: Sveltia CMS admin portal for experimental textiles documentation site
+    width: normal
+  - type: photo
+    image: /uploads/Screenshot 2026-10-05 at 6.28.55 PM.png
+    alt: Editing a post through Sveltia CMS admin portal.
+    caption: Editing a post through Sveltia CMS admin portal
+    width: normal
 ---
