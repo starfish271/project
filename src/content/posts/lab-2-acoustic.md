@@ -222,16 +222,16 @@ blocks:
 
       <p> The github repo for this can be accessed here: [https://github.com/starfish271/project](https://github.com/starfish271/project)[ ](https://github.com/starfish271/project)</p>
 
-      <p> Homepage for the site can be accessed here:
-      [https://starfish271.github.io/project/](https://starfish271.github.io/project/)</p>
+      Homepage for the site can be accessed here:
+      [https://starfish271.github.io/project/](https://starfish271.github.io/project/)
 
-      <p> Admin portal:
-      [https://starfish271.github.io/project/](https://starfish271.github.io/project/admin)[admin](https://starfish271.github.io/project/admin) </p>
+      Admin portal:
+      [https://starfish271.github.io/project/](https://starfish271.github.io/project/admin)[admin](https://starfish271.github.io/project/admin) 
 
       <p> I also got another working blog-style website up and running that I will be using for my Experimental Textiles course. I basically just duplicated all the files, added them into a new github repo, had bolt make any necessary setup changes to the code, and edited all the text in the admin portal to fit the associated class. </p>
 
-      <p> Experimental Textiles Site:
-      [https://starfish271.github.io/extx-site/](https://starfish271.github.io/extx-site/)</p>
+      Experimental Textiles Site:
+      [https://starfish271.github.io/extx-site/](https://starfish271.github.io/extx-site/)
   - type: photo
     image: /uploads/Screenshot 2026-10-05 at 6.39.29 PM.png
     alt: site settings
