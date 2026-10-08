@@ -7,33 +7,15 @@ draft: false
 status: completed
 blocks:
   - type: paragraph
-    body: <p>The inspiration behind this project was a project that I did for another ATLAS class last semester. I got these two dev boards over the summer so I could start prototyping version 2 of my pocket notetaker device, but really never got around to it, so I thought this assignment would be a great opportunity to start developing. Claude Code is what I used mainly, and also had another chat running on the side to ask questions. Eventually I was able to make it work exactly as intended. </p>
+    body: The inspiration behind this project was a project that I did for another ATLAS class last semester. I got these two dev boards over the summer so I could start prototyping version 2 of my pocket notetaker device, but really never got around to it, so I thought this assignment would be a great opportunity to start developing. Claude Code is what I used mainly, and also had another chat running on the side to ask questions. Eventually I was able to make it work exactly as intended.
   - type: heading
     text: The Prompt
   - type: paragraph
-    body: <p>I first had an existing claude chat that I used for version 1 to write me a prompt to give to claude code based on the hardware I had and the vision for this project. </p>
-  - type: code
-    language: python
-    filename: blink.ino
-    code: |-
-      // Blink — turns an LED on for 1 second, then off, repeatedly.
-      // This is the standard Arduino "Hello World" sketch.
-
-      void setup() {
-        // Initialize digital pin 13 as an output
-        pinMode(13, OUTPUT);
-      }
-
-      void loop() {
-        digitalWrite(13, HIGH);   // Turn the LED on
-        delay(1000);              // Wait for 1 second
-        digitalWrite(13, LOW);    // Turn the LED off
-        delay(1000);              // Wait for 1 second
-      }
+    body: I first had an existing claude chat that I used for version 1 to write me a prompt to give to claude code based on the hardware I had and the vision for this project.
   - type: heading
     text: Demo
   - type: paragraph
-    body: <p>This prototype was an idea I've had for a while and using Claude Code really made the process smooth and fast.</p>
+    body: This prototype was an idea I've had for a while and using Claude Code really made the process smooth and fast.
 ---
 
 This body text is ignored — the blocks in the frontmatter are what render on the page.
