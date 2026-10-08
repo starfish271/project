@@ -14,6 +14,11 @@ blocks:
     body: I first had an existing claude chat that I used for version 1 to write me a prompt to give to claude code based on the hardware I had and the vision for this project.
   - type: heading
     text: Demo
+  - type: youtube
+    caption: ''
+    url: youtube.com
+  - type: heading
+    text: Takeaway
   - type: paragraph
     body: This prototype was an idea I've had for a while and using Claude Code really made the process smooth and fast.
 ---
