@@ -10,10 +10,11 @@ interface Props {
 
 const { url, caption } = Astro.props;
 
-// Extract video ID from watch?v=, youtu.be/, or embed/ URLs
+// Extract video ID from common YouTube URL formats, including Shorts.
 function extractVideoId(u: string): string | null {
   const patterns = [
     /(?:youtube\.com\/watch\?v=)([\w-]{11})/,
+    /(?:youtube\.com\/shorts\/)([\w-]{11})/,
     /(?:youtu\.be\/)([\w-]{11})/,
     /(?:youtube\.com\/embed\/)([\w-]{11})/,
     /(?:^v=)([\w-]{11})/,
