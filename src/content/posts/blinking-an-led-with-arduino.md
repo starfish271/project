@@ -16,7 +16,7 @@ blocks:
     text: Demo
   - type: youtube
     caption: ''
-    url: https://youtube.com/shorts/pWZtq7ZiWz4?feature=share
+    url: https://youtube.com/shorts/pWZtq7ZiWz4?si=bURVoJKuFA0ZOJ6C
   - type: heading
     text: Takeaway
   - type: paragraph
