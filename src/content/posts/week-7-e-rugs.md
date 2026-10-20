@@ -15,4 +15,7 @@ blocks:
   - type: youtube
     caption: claude's first version of desktop rug
     url: https://youtu.be/jbaXxCiC5Lo
+  - type: youtube
+    caption: claude's second version after watching instagram reel
+    url: https://youtu.be/vOLxrXw1w2w
 ---
